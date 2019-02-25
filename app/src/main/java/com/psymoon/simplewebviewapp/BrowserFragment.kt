@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebSettings
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_browser.*
 
@@ -27,6 +28,15 @@ class BrowserFragment: Fragment() {
         webView.settings.javaScriptEnabled = true
         webView.settings.domStorageEnabled = true
         webView.settings.loadWithOverviewMode = true
+
+        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+        webView.settings.useWideViewPort = true
+        webView.settings.setSupportZoom(true)
+        webView.settings.allowContentAccess = true
+        webView.settings.allowUniversalAccessFromFileURLs = true
+        webView.settings.allowFileAccess = true
+        webView.settings.allowFileAccessFromFileURLs = true
+
         webView.loadUrl(DEFAULT_URL)
     }
 }
