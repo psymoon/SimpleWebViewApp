@@ -1,10 +1,12 @@
 package com.psymoon.simplewebviewapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_browser.*
 
@@ -16,10 +18,15 @@ class BrowserFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_browser, container, false)
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         webView.webViewClient = WebViewClient()
+        webView.webChromeClient = WebChromeClient()
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.loadWithOverviewMode = true
         webView.loadUrl(DEFAULT_URL)
     }
 }
