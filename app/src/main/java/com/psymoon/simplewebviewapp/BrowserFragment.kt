@@ -2,6 +2,7 @@ package com.psymoon.simplewebviewapp
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,9 @@ import kotlinx.android.synthetic.main.fragment_browser.*
 
 const val DEFAULT_URL = "https://youtube.com/tv"
 
-class BrowserFragment: Fragment() {
+class BrowserFragment: Fragment(), TabLayout.OnTabSelectedListener {
+
+    private val webViewTabs = HashMap<TabLayout.Tab, WebView>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_browser, container, false)
@@ -24,6 +27,24 @@ class BrowserFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        tabLayout.addOnTabSelectedListener(this)
+
+        val newTab = tabLayout.newTab().setText("Tab")
+        webViewTabs.put(newTab, createWebViewInstance())
+        tabLayout.addTab(newTab)
+        newTab.select()
+    }
+
+    override fun onTabReselected(p0: TabLayout.Tab?) {}
+
+    override fun onTabUnselected(p0: TabLayout.Tab?) {}
+
+    override fun onTabSelected(currTab: TabLayout.Tab?) {
+        browserFrameLayout.removeAllViews()
+        browserFrameLayout.addView(webViewTabs.get(currTab))
+    }
+
+    private fun createWebViewInstance(): WebView {
         val webView = WebView(context)
 
         webView.webViewClient = WebViewClient()
@@ -42,6 +63,6 @@ class BrowserFragment: Fragment() {
 
         webView.loadUrl(DEFAULT_URL)
 
-        browserFrameLayout.addView(webView)
+        return webView
     }
 }
