@@ -29,10 +29,11 @@ class BrowserFragment: Fragment(), TabLayout.OnTabSelectedListener {
 
         tabLayout.addOnTabSelectedListener(this)
 
-        val newTab = tabLayout.newTab().setText("Tab")
-        webViewTabs.put(newTab, createWebViewInstance())
-        tabLayout.addTab(newTab)
-        newTab.select()
+        addNewtab()
+
+        plusButton.setOnClickListener {
+            addNewtab()
+        }
     }
 
     override fun onTabReselected(p0: TabLayout.Tab?) {}
@@ -42,6 +43,14 @@ class BrowserFragment: Fragment(), TabLayout.OnTabSelectedListener {
     override fun onTabSelected(currTab: TabLayout.Tab?) {
         browserFrameLayout.removeAllViews()
         browserFrameLayout.addView(webViewTabs.get(currTab))
+    }
+
+    private fun addNewtab() {
+        val tabNum = webViewTabs.size + 1
+        val newTab = tabLayout.newTab().setText("Tab $tabNum")
+        webViewTabs.put(newTab, createWebViewInstance())
+        tabLayout.addTab(newTab)
+        newTab.select()
     }
 
     private fun createWebViewInstance(): WebView {
