@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_browser.*
 
@@ -22,6 +23,8 @@ class BrowserFragment: Fragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val webView = WebView(context)
 
         webView.webViewClient = WebViewClient()
         webView.webChromeClient = WebChromeClient()
@@ -38,5 +41,7 @@ class BrowserFragment: Fragment() {
         webView.settings.allowFileAccessFromFileURLs = true
 
         webView.loadUrl(DEFAULT_URL)
+
+        browserFrameLayout.addView(webView)
     }
 }
